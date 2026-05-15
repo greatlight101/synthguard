@@ -55,11 +55,7 @@ export default async function DashboardLayout({
         <div className="px-4 py-4 border-t border-slate-800">
           <p className="text-xs text-slate-600 mb-1">Signed in as</p>
           <p className="text-xs text-slate-400 truncate mb-3">{user.email}</p>
-          <form action="/api/auth/signout" method="post">
-            <button className="text-xs text-slate-500 hover:text-slate-300 transition-colors">
-              Sign out →
-            </button>
-          </form>
+          <SignOutButton />
         </div>
 
       </aside>
@@ -73,4 +69,22 @@ export default async function DashboardLayout({
 </main>
     </div>
   )
+  'use client'
+function SignOutButton() {
+  const handleSignOut = async () => {
+    const { createClient } = await import('@/lib/supabase/client')
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    window.location.href = '/login'
+  }
+
+  return (
+    <button
+      onClick={handleSignOut}
+      className="text-xs text-slate-500 hover:text-slate-300 transition-colors"
+    >
+      Sign out →
+    </button>
+  )
+}
 }
