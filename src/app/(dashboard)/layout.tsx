@@ -1,13 +1,14 @@
 import SessionAlert from '@/components/SessionAlert'
+import SignOutButton from '@/components/SignOutButton'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
 const NAV = [
-  { href: '/dashboard',  label: 'Overview',    icon: '▦' },
-  { href: '/calculator', label: 'Calculator',  icon: '⊕' },
-  { href: '/journal',    label: 'Journal',     icon: '◉' },
-  { href: '/settings',   label: 'Settings',    icon: '◎' },
+  { href: '/dashboard',  label: 'Overview',   icon: '▦' },
+  { href: '/calculator', label: 'Calculator', icon: '⊕' },
+  { href: '/journal',    label: 'Journal',    icon: '◉' },
+  { href: '/settings',   label: 'Settings',   icon: '◎' },
 ]
 
 export default async function DashboardLayout({
@@ -62,29 +63,12 @@ export default async function DashboardLayout({
 
       {/* Main content */}
       <main className="ml-56 flex-1 min-h-screen">
-  <SessionAlert userId={user.id} />
-  <div className="p-8">
-    {children}
-  </div>
-</main>
+        <SessionAlert userId={user.id} />
+        <div className="p-8">
+          {children}
+        </div>
+      </main>
+
     </div>
   )
-  'use client'
-function SignOutButton() {
-  const handleSignOut = async () => {
-    const { createClient } = await import('@/lib/supabase/client')
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    window.location.href = '/login'
-  }
-
-  return (
-    <button
-      onClick={handleSignOut}
-      className="text-xs text-slate-500 hover:text-slate-300 transition-colors"
-    >
-      Sign out →
-    </button>
-  )
-}
 }
